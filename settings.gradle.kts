@@ -1,3 +1,1 @@
-
-rootProject.name = "forNothingAPI"
-
+rootProject.name = "demo"

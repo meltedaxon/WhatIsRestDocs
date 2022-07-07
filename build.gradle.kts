@@ -1,28 +1,36 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-buildscript{
-    repositories{
-        mavenCentral()
-    }
-    dependencies{
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.7.RELEASE")
-    }
+plugins {
+	id("org.springframework.boot") version "2.7.1"
+	id("io.spring.dependency-management") version "1.0.11.RELEASE"
+	kotlin("jvm") version "1.6.21"
+	kotlin("plugin.spring") version "1.6.21"
 }
 
-plugins{
-    id("java")
-    id("eclipse")
-    id("org.springframework.boot")
-    id("io.spring.dependency-management")
+group = "com.example"
+version = "0.0.1-SNAPSHOT"
+java.sourceCompatibility = JavaVersion.VERSION_11
+
+repositories {
+	mavenCentral()
 }
 
-group "org.example"
-version "1.0-SNAPSHOT"
-
-repositories{
-    mavenCentral()
+dependencies {
+	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+	implementation("org.jetbrains.kotlin:kotlin-reflect")
+	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+	developmentOnly("org.springframework.boot:spring-boot-devtools")
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
-dependencies{
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+tasks.withType<KotlinCompile> {
+	kotlinOptions {
+		freeCompilerArgs = listOf("-Xjsr305=strict")
+		jvmTarget = "11"
+	}
+}
+
+tasks.withType<Test> {
+	useJUnitPlatform()
 }
